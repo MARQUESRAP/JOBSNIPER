@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  audit-app:
+    build: .
+    restart: always
+    ports:
+      - "3050:3000"
+    env_file:
+      - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.audit.rule=Host(`gralt.fr`)"
+      - "traefik.http.routers.audit.entrypoints=websecure"
+      - "traefik.http.routers.audit.tls.certresolver=letsencrypt"
+      - "traefik.http.services.audit.loadbalancer.server.port=3000"
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    external: true
