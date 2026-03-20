@@ -11,7 +11,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.audit.rule=Host(`gralt.fr`)"
       - "traefik.http.routers.audit.entrypoints=websecure"
-      - "traefik.http.routers.audit.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.audit.tls.certresolver=mytlschallenge"
       - "traefik.http.services.audit.loadbalancer.server.port=3000"
     networks:
       - root_default
