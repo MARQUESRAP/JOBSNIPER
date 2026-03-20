@@ -14,8 +14,8 @@ services:
       - "traefik.http.routers.audit.tls.certresolver=letsencrypt"
       - "traefik.http.services.audit.loadbalancer.server.port=3000"
     networks:
-      - traefik-net
+      - root_default
 
 networks:
-  traefik-net:
+  root_default:
     external: true
