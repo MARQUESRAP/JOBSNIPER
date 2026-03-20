@@ -8,11 +8,21 @@ services:
     env_file:
       - .env
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.audit.rule=Host(`gralt.fr`)"
-      - "traefik.http.routers.audit.entrypoints=websecure"
-      - "traefik.http.routers.audit.tls.certresolver=mytlschallenge"
-      - "traefik.http.services.audit.loadbalancer.server.port=3000"
+      - traefik.enable=true
+      - traefik.http.routers.audit.rule=Host(`gralt.fr`)
+      - traefik.http.routers.audit.tls=true
+      - traefik.http.routers.audit.entrypoints=web,websecure
+      - traefik.http.routers.audit.tls.certresolver=mytlschallenge
+      - traefik.http.middlewares.audit.headers.SSLRedirect=true
+      - traefik.http.middlewares.audit.headers.STSSeconds=315360000
+      - traefik.http.middlewares.audit.headers.browserXSSFilter=true
+      - traefik.http.middlewares.audit.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.audit.headers.forceSTSHeader=true
+      - traefik.http.middlewares.audit.headers.SSLHost=gralt.fr
+      - traefik.http.middlewares.audit.headers.STSIncludeSubdomains=true
+      - traefik.http.middlewares.audit.headers.STSPreload=true
+      - traefik.http.routers.audit.middlewares=audit@docker
+      - traefik.http.services.audit.loadbalancer.server.port=3000
     networks:
       - root_default
 
